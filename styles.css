@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+}
+.word {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+.input {
+    margin: 10px 0;
+}
+.score, .response {
+    font-size: 1em;
+    margin-top: 20px;
+}
+.feedback {
+    font-size: 1em;
+    color: green;
+}
+.hidden {
+    display: none;
+}
