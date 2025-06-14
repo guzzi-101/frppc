@@ -1,3 +1,21 @@
+let frenchVoice = null;
+
+function loadVoices() {
+    const voices = window.speechSynthesis.getVoices();
+    frenchVoice = voices.find(v => v.lang.startsWith('fr'));
+}
+
+window.speechSynthesis.onvoiceschanged = loadVoices;
+
+function speak(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'fr-FR';
+    if (frenchVoice) {
+        utterance.voice = frenchVoice;
+    }
+    window.speechSynthesis.speak(utterance);
+}
+
 let currentIndex = 0;
 let correctCount = 0;
 
@@ -15,11 +33,16 @@ function shuffleArray(array) {
 
 function displayNextWord() {
     if (currentIndex < words.length) {
-        currentWordDiv.innerHTML = `<p>${words[currentIndex].original}</p>`;
+        const word = words[currentIndex].original;
+        currentWordDiv.innerHTML = `<p>${word}</p>`;
         userInput.value = '';
         userInput.disabled = false;
         document.querySelector('button').disabled = false;
         userInput.focus();
+
+        // Speak the word
+        speak(word);
+
     } else {
         const percentage = (correctCount / words.length) * 100;
         scoreDiv.innerHTML = `You scored ${correctCount} out of ${words.length} (${percentage.toFixed(2)}%)`;
@@ -28,6 +51,7 @@ function displayNextWord() {
         document.querySelector('button').style.display = 'none';
     }
 }
+
 
 function submitAnswer() {
     const userAnswer = userInput.value.trim();
